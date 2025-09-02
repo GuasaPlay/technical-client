@@ -12,16 +12,25 @@ export const EnrollmentsClient = () => {
 
 	const { data } = useStudent({ dni: dniValue, enabled: !!dniValue });
 
+	const handleBackToSearch = () => {
+		setDniValue('');
+		setShowNewEnrollment(false);
+	};
+
 	return (
 		<div className="">
 			{!data && <SearchStudent setDniValue={setDniValue} />}
 			{data && data.exists && !showNewEnrollment && (
-				<StudentWithEnrollment student={data} onNewEnrollment={() => setShowNewEnrollment(true)} />
+				<StudentWithEnrollment
+					student={data}
+					onNewEnrollment={() => setShowNewEnrollment(true)}
+					onBack={handleBackToSearch}
+				/>
 			)}
 			{data && data.exists && showNewEnrollment && (
 				<Enrollment dniValue={dniValue} studentData={data.student} onCancel={() => setShowNewEnrollment(false)} />
 			)}
-			{data && !data.exists && <Enrollment dniValue={dniValue} studentData={null} />}
+			{data && !data.exists && <Enrollment dniValue={dniValue} studentData={null} onBack={handleBackToSearch} />}
 		</div>
 	);
 };

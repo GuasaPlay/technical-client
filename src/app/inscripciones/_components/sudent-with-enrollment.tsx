@@ -3,14 +3,15 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { StudentResponse } from '@/interfaces/student.interfaces';
-import { Plus } from 'lucide-react';
+import { ArrowLeft, Plus } from 'lucide-react';
 
 interface StudentWithEnrollmentProps {
 	student: StudentResponse;
 	onNewEnrollment?: () => void;
+	onBack?: () => void;
 }
 
-export const StudentWithEnrollment = ({ student, onNewEnrollment }: StudentWithEnrollmentProps) => {
+export const StudentWithEnrollment = ({ student, onNewEnrollment, onBack }: StudentWithEnrollmentProps) => {
 	const { student: studentData } = student;
 
 	const formatCurrency = (amount: number) => {
@@ -21,11 +22,19 @@ export const StudentWithEnrollment = ({ student, onNewEnrollment }: StudentWithE
 	};
 
 	return (
-		<div className="space-y-6 p-10">
+		<div className="space-y-6 p-10 pt-16">
 			{/* Información del estudiante */}
 			<Card>
 				<CardHeader>
-					<CardTitle>Información del Estudiante</CardTitle>
+					<div className="flex space-x-4 items-center">
+						{onBack && (
+							<Button variant="outline" size="icon" onClick={onBack}>
+								<ArrowLeft className="w-4 h-4 " />
+							</Button>
+						)}
+						<CardTitle>Información del Estudiante</CardTitle>
+						<div></div> {/* Espaciador para mantener el título centrado */}
+					</div>
 				</CardHeader>
 				<CardContent>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -33,10 +42,7 @@ export const StudentWithEnrollment = ({ student, onNewEnrollment }: StudentWithE
 							<label className="text-sm font-medium text-gray-500">DNI</label>
 							<p className="text-lg font-semibold">{studentData.dni}</p>
 						</div>
-						<div>
-							<label className="text-sm font-medium text-gray-500">ID</label>
-							<p className="text-lg font-semibold">{studentData.id}</p>
-						</div>
+						<div></div>
 						<div>
 							<label className="text-sm font-medium text-gray-500">Nombres</label>
 							<p className="text-lg font-semibold">{studentData.names}</p>

@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { EnrollmentSchema, EnrollmentSchemaType } from '@/schemas/enrollment.schema';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ArrowLeft } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { useCareers, useCreateEnrollment, useSchools } from '../_hooks/query.hook';
@@ -24,9 +25,10 @@ interface SearchStudentProps {
 		enrollments: any[];
 	} | null;
 	onCancel?: () => void;
+	onBack?: () => void;
 }
 
-export const Enrollment = ({ dniValue, studentData, onCancel }: SearchStudentProps) => {
+export const Enrollment = ({ dniValue, studentData, onCancel, onBack }: SearchStudentProps) => {
 	const { data: schools } = useSchools();
 
 	const { data: careers } = useCareers();
@@ -77,6 +79,16 @@ export const Enrollment = ({ dniValue, studentData, onCancel }: SearchStudentPro
 			<form className="h-screen w-screen grid place-items-center" onSubmit={form.handleSubmit(onSubmit)}>
 				<Card className="w-3/4">
 					<CardHeader>
+						{/* Botón de regresar cuando no hay studentData y hay función onBack */}
+						{!studentData && onBack && (
+							<div className="flex justify-end mb-4">
+								<Button type="button" variant="outline" size="sm" onClick={onBack}>
+									<ArrowLeft className="w-4 h-4 mr-2" />
+									Nueva Consulta
+								</Button>
+							</div>
+						)}
+
 						<CardTitle className="text-center text-2xl">
 							{studentData ? 'Nueva Inscripción - Estudiante Existente' : 'Registro de Inscripción'}
 						</CardTitle>
