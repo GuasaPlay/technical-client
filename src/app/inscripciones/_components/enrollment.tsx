@@ -101,6 +101,16 @@ export const Enrollment = ({ dniValue, studentData, onCancel }: SearchStudentPro
 												{...field}
 												readOnly={!!studentData}
 												className={studentData ? 'bg-gray-100' : ''}
+												maxLength={10}
+												type="text"
+												inputMode="numeric"
+												pattern="[0-9]*"
+												onInput={(e) => {
+													// Solo permitir números
+													const target = e.target as HTMLInputElement;
+													target.value = target.value.replace(/\D/g, '');
+													field.onChange(target.value);
+												}}
 											/>
 										</FormControl>
 										<FormMessage />
