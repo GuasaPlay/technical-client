@@ -3,7 +3,15 @@ export interface StudentRequest {
 }
 
 export interface StudentResponse {
-	student: { id: string; dni: string; names: string; surnames: string; email: string; enrollments: Enrollment[] };
+	student: {
+		id: string;
+		dni: string;
+		names: string;
+		surnames: string;
+		email: string;
+		originSchoolId: string;
+		enrollments: Enrollment[];
+	};
 	exists: boolean;
 }
 

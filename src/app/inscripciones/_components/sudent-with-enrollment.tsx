@@ -1,13 +1,16 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { StudentResponse } from '@/interfaces/student.interfaces';
+import { Plus } from 'lucide-react';
 
 interface StudentWithEnrollmentProps {
 	student: StudentResponse;
+	onNewEnrollment?: () => void;
 }
 
-export const StudentWithEnrollment = ({ student }: StudentWithEnrollmentProps) => {
+export const StudentWithEnrollment = ({ student, onNewEnrollment }: StudentWithEnrollmentProps) => {
 	const { student: studentData } = student;
 
 	const formatCurrency = (amount: number) => {
@@ -53,7 +56,15 @@ export const StudentWithEnrollment = ({ student }: StudentWithEnrollmentProps) =
 			{/* Lista de inscripciones */}
 			<Card>
 				<CardHeader>
-					<CardTitle>Inscripciones ({studentData.enrollments.length})</CardTitle>
+					<div className="flex justify-between items-center">
+						<CardTitle>Inscripciones ({studentData.enrollments.length})</CardTitle>
+						{onNewEnrollment && (
+							<Button onClick={onNewEnrollment} size="sm">
+								<Plus className="w-4 h-4 mr-2" />
+								Nueva Inscripción
+							</Button>
+						)}
+					</div>
 				</CardHeader>
 				<CardContent>
 					{studentData.enrollments.length === 0 ? (

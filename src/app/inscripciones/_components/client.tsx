@@ -8,14 +8,20 @@ import { StudentWithEnrollment } from './sudent-with-enrollment';
 
 export const EnrollmentsClient = () => {
 	const [dniValue, setDniValue] = useState<string>('');
+	const [showNewEnrollment, setShowNewEnrollment] = useState<boolean>(false);
 
 	const { data } = useStudent({ dni: dniValue, enabled: !!dniValue });
 
 	return (
 		<div className="">
 			{!data && <SearchStudent setDniValue={setDniValue} />}
-			{data && data.exists && <StudentWithEnrollment student={data} />}
-			{data && !data.exists && <Enrollment dniValue={dniValue} />}
+			{data && data.exists && !showNewEnrollment && (
+				<StudentWithEnrollment student={data} onNewEnrollment={() => setShowNewEnrollment(true)} />
+			)}
+			{data && data.exists && showNewEnrollment && (
+				<Enrollment dniValue={dniValue} studentData={data.student} onCancel={() => setShowNewEnrollment(false)} />
+			)}
+			{data && !data.exists && <Enrollment dniValue={dniValue} studentData={null} />}
 		</div>
 	);
 };
