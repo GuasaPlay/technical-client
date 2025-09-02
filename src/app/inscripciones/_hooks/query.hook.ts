@@ -1,5 +1,12 @@
-import { createEnrollment, getCareers, getSchools, getStudent } from '@/api-tt/queries';
-import { CAREERS_KEY, SCHOOLS_KEY, STUDENT_KEY } from '@/api-tt/query-keys';
+import {
+	createEnrollment,
+	getCareerDetails,
+	getCareers,
+	getCareersWithStats,
+	getSchools,
+	getStudent,
+} from '@/api-tt/queries';
+import { CAREERS_KEY, CAREERS_WITH_STATS_KEY, CAREER_DETAILS_KEY, SCHOOLS_KEY, STUDENT_KEY } from '@/api-tt/query-keys';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 interface UseStudentProps {
@@ -28,6 +35,28 @@ export const useCareers = () => {
 		queryKey: [CAREERS_KEY],
 		queryFn: () => getCareers(),
 		staleTime: Infinity,
+	});
+};
+
+export const useCareersWithStats = () => {
+	return useQuery({
+		queryKey: [CAREERS_WITH_STATS_KEY],
+		queryFn: () => getCareersWithStats(),
+		staleTime: Infinity,
+	});
+};
+
+interface UseCareerDetailsProps {
+	id: string;
+	enabled?: boolean;
+}
+
+export const useCareerDetails = ({ id, enabled = true }: UseCareerDetailsProps) => {
+	return useQuery({
+		queryKey: [CAREER_DETAILS_KEY, { id }],
+		queryFn: () => getCareerDetails(id),
+		staleTime: Infinity,
+		enabled,
 	});
 };
 

@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { DEFAULT_ERROR_MESSAGE } from '@/constants/Messages';
-import { CareerResponse, SchoolResponse } from '@/interfaces/common.interface';
+import {
+	CareerDetailsResponse,
+	CareerResponse,
+	CareerWithStatsResponse,
+	SchoolResponse,
+} from '@/interfaces/common.interface';
 import { StudentRequest, StudentResponse } from '@/interfaces/student.interfaces';
 import { EnrollmentSchemaType } from '@/schemas/enrollment.schema';
 import ttApi from '.';
@@ -29,6 +34,26 @@ export const getSchools = async (): Promise<SchoolResponse[]> => {
 export const getCareers = async (): Promise<CareerResponse[]> => {
 	try {
 		const { data } = await ttApi.get<CareerResponse[]>(`/career-offered`);
+
+		return data;
+	} catch (error: any) {
+		throw new Error(error.response?.data?.message || DEFAULT_ERROR_MESSAGE);
+	}
+};
+
+export const getCareersWithStats = async (): Promise<CareerWithStatsResponse[]> => {
+	try {
+		const { data } = await ttApi.get<CareerWithStatsResponse[]>(`/career-offered/with-student-count`);
+
+		return data;
+	} catch (error: any) {
+		throw new Error(error.response?.data?.message || DEFAULT_ERROR_MESSAGE);
+	}
+};
+
+export const getCareerDetails = async (id: string): Promise<CareerDetailsResponse> => {
+	try {
+		const { data } = await ttApi.get<CareerDetailsResponse>(`/career-offered/${id}/students`);
 
 		return data;
 	} catch (error: any) {
